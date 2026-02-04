@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sessizleylek's Crossword Generator</title>
     <style>
         body {
@@ -11,7 +12,7 @@
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 90vh;
             margin: auto;
         }
 
@@ -86,7 +87,7 @@
 
     <div class="container" id="generator">
         <h1>Sessizleylek's Crossword Generator</h1>
-        <p class="long-text">Welcome to SessizLeylek's Crossword Generator, where you can create puzzles by entering your data in the format <em>THEANSWER=The question for the answer</em>. The answer must be written in all caps with no spaces or special characters allowed. After you have finished entering all your pairs, click "Generate Crossword" to produce a link that allows you to play the puzzle or send it to your friends.</p>
+        <p class="long-text">Welcome to SessizLeylek's Crossword Generator, where you can create puzzles by entering your data in the format <em>THEANSWER=The question for the answer</em>. The answer must be written in all caps with no spaces or special characters allowed. After you have finished entering all your pairs, click "Generate Crossword" to produce a link that allows you to play the puzzle or send it to your friends. Keep in mind that the generated links will probably exceed 3k characters in length. Some browsers may not be able to handle such long URLs.</p>
 
         <div class="top-row">
             <p>Presets: </p>
@@ -103,7 +104,7 @@
 
         <textarea id="clue-pairs" placeholder="i.e.&#10;ALBERTEINSTEIN=The Discoverer of the Theory of Relativity"></textarea>
 
-        <button onclick="generateCrossword()">Generate Crossword</button>
+        <button id="generate-button" onclick="generateCrossword()">Generate Crossword</button>
 
         <p id="puzzle-link"></p>
 
