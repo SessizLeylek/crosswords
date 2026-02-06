@@ -17,8 +17,23 @@ body {
     align-items: center;
     justify-content: center;
     font-family: monospace;
+    font-size: 30px;
+    font-weight: bolder;
+    overflow: hidden;
+    color:#eef;
+
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .void {
     background: #eef;
+}
+
+.selected {
+    background: #88f;
+}
+
+.highlighted {
+    background: #229;
 }

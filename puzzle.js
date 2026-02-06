@@ -4,13 +4,18 @@ const params = new URLSearchParams(location.search);
 const hasP = params.has("p");
 const puzzleCode = hasP ? params.get("p") : null;
 
-if (puzzleCode) {
-    const c = parsePuzzleCode(puzzleCode);
-    const g = generateGrid(c);
-    buildPuzzle(g.width, g.height, g.grid);
-} else {
-    alert("No puzzle code provided.");
+if (!puzzleCode) {
+    alert("No puzzle code provided in URL.");
 }
+
+const placements = [];      // { x, y, direction, word, clue }
+const referenceGrid = [];   // { accross, down } references to placements, 0..n-1 placement index
+const solutionGrid = [];    // the grid rendered to the user, 0 empty, char codes for letters
+const cellMap = [];         // map of cell elements for easy access
+
+parsePuzzleCode(puzzleCode); 
+const g = generateGrids(placements);
+buildPuzzle(g.width, g.height);
 
 function decodeBase64Url(base64url) {
     // base64url -> base64
@@ -38,8 +43,6 @@ function decodeBase64Url(base64url) {
 function parsePuzzleCode(code) {
     const buffer = decodeBase64Url(code);
     const view = new DataView(buffer);
-
-    const placements = [];
 
     let offset = 0;
     const wordCount = view.getUint8(offset++);
@@ -72,11 +75,9 @@ function parsePuzzleCode(code) {
     }
 
     console.log("Parsed placements:", placements);
-
-    return placements;
 }
 
-function generateGrid(placements) {
+function generateGrids(placements) {
     // Determine grid size
     let maxX = 0;
     let maxY = 0;
@@ -92,50 +93,180 @@ function generateGrid(placements) {
     }
 
     // Initialize grid
-    const grid = [];
     for (let y = 0; y < maxY; y++) {
+        const rowRef = [];
+        const rowSol = [];
         for (let x = 0; x < maxX; x++) {
-            grid.push(0); // empty cell
+            rowRef.push({ accross: -1, down: -1 }); // no reference
+            rowSol.push(0); // empty cell
         }
+        referenceGrid.push(rowRef);
+        solutionGrid.push(rowSol);
     }
 
     // Place words in grid
-    for (const p of placements) {
-        for (let i = 0; i < p.word.length; i++) {
-            const x = p.x + (p.direction === 0 ? i : 0);
-            const y = p.y + (p.direction === 1 ? i : 0);
-            const index = y * maxX + x;
-            grid[index] = p.word.charCodeAt(i);
+    for (let i = 0; i < placements.length; i++) {
+        const p = placements[i];
+        for (let j = 0; j < p.word.length; j++) {
+            const x = p.x + (p.direction === 0 ? j : 0);
+            const y = p.y + (p.direction === 1 ? j : 0);
+            solutionGrid[y][x] = "";
+            if (p.direction === 0) {
+                referenceGrid[y][x].accross = i;
+            } else {
+                referenceGrid[y][x].down = i;
+            }
         }
     }
 
-    return { width: maxX, height: maxY, grid: grid };
+    return { width: maxX, height: maxY};
 }
 
-function buildPuzzle(width, height, layout) {
-    const container = document.createElement("div");
-    container.id = "crossword";
-    document.body.appendChild(container);
+function buildPuzzle(width, height) {
+    const crosswordDiv = document.createElement("div");
+    crosswordDiv.id = "crossword";
+    document.querySelector(".container").appendChild(crosswordDiv);
 
-    if (layout.length !== width * height)
-        throw new Error("layout size mismatch");
+    crosswordDiv.style.gridTemplateColumns = `repeat(${width}, 1fr)`;
+    crosswordDiv.style.gridTemplateRows = `repeat(${height}, 1fr)`;
+    crosswordDiv.innerHTML = "";
 
-    container.style.gridTemplateColumns = `repeat(${width}, 1fr)`;
-    container.style.gridTemplateRows = `repeat(${height}, 1fr)`;
-    container.innerHTML = "";
+    for (let y = 0; y < solutionGrid.length; y++) {
+        const cellMapRow = [];
 
-    for (let i = 0; i < layout.length; i++) {
-        const cell = document.createElement("div");
-        cell.className = "cell";
+        for (let x = 0; x < solutionGrid[0].length; x++) {
+            const cell = document.createElement("div");
+            cell.className = "cell";
 
-        if (layout[i] === 0) {
-            cell.classList.add("void");
+            cellMapRow.push(cell);
+    
+            if (solutionGrid[y][x] === 0) {
+                cell.classList.add("void");
+            } else {
+                cell.dataset.x = x;
+                cell.dataset.y = y;
+                cell.textContent = solutionGrid[y][x] ? String.fromCharCode(solutionGrid[y][x]) : ""; 
+                cell.addEventListener("click", () => {
+                    onCellSelect(cell, true);
+                });
+            }
+    
+            crosswordDiv.appendChild(cell);
+        }
+
+        cellMap.push(cellMapRow);
+    }
+}
+
+var previousSelectedCell = null;
+var selectedDirection = 0; // 0 accross, 1 down
+const previousHighlightedCells = [];
+function onCellSelect(cell, resetDirection = false) {
+    // select cell, deselect previous
+    const isSelectedAgain = cell.classList.contains("selected");
+    const x = parseInt(cell.dataset.x);
+    const y = parseInt(cell.dataset.y);
+    const cellReferences = referenceGrid[y][x];
+
+    if (previousSelectedCell && previousSelectedCell !== cell) {
+        deselectCurrentCell();
+    }
+
+    clearHighlights();
+
+    if (isSelectedAgain) {
+        // cycle direction
+        selectedDirection++;
+        if (selectedDirection > 1 || selectedDirection === 1 && cellReferences.down === -1) {
+            // all directions are cycled, deselect cell
+            previousSelectedCell = null;
+            selectedDirection = 0;
+
+            cell.classList.remove("selected");
+            return;
+        }
+    } else if (resetDirection) {
+        // new cell is selected, reset direction
+        // if accross is available, select it by default
+        if (cellReferences.accross !== -1) {
+            selectedDirection = 0; 
         } else {
-            cell.dataset.index = i;
-            cell.textContent = ""; // letter goes here
+            selectedDirection = 1;
         }
+    }
 
-        container.appendChild(cell);
+    const placement = placements[selectedDirection ? cellReferences.down : cellReferences.accross];
+
+    if (!placement) {
+        console.error("No placement found for selected cell and direction.");
+        return;
+    }
+    
+    if (!isSelectedAgain) {
+        previousSelectedCell = cell;
+        cell.classList.add("selected");
+    }
+    
+    // highlight word
+    for (let i = 0; i < placement.word.length; i++) {
+        const cx = placement.x + (placement.direction === 0 ? i : 0);
+        const cy = placement.y + (placement.direction === 1 ? i : 0);
+        const cell = cellMap[cy][cx];
+        if (cell && cell !== previousSelectedCell) {
+            cell.classList.add("highlighted");
+            previousHighlightedCells.push(cell);
+        }
     }
 }
 
+function deselectCurrentCell() {
+    previousSelectedCell.classList.remove("selected");
+    previousSelectedCell = null;
+}
+
+function clearHighlights() {
+    // clear previous highlights
+    for (const c of previousHighlightedCells) {
+        c.classList.remove("highlighted");
+    }
+    previousHighlightedCells.length = 0;
+}
+
+function selectNextCell(delta = 1) {
+    if (!previousSelectedCell) return;
+
+    const x = parseInt(previousSelectedCell.dataset.x);
+    const y = parseInt(previousSelectedCell.dataset.y);
+
+    let nextCell = null;
+    if (selectedDirection === 0) { // across
+        nextCell = cellMap[y][x + delta];
+    } else { // down
+        nextCell = cellMap[y + delta] ? cellMap[y + delta][x] : null;
+    }
+
+    if (!nextCell || nextCell.classList.contains("void")) {
+        deselectCurrentCell();
+        clearHighlights();
+        return;
+    }
+
+    onCellSelect(nextCell);
+}
+
+document.addEventListener("keydown", (e) => {
+    if (!previousSelectedCell) return;
+
+    if (e.key.length === 1 && /^\p{L}$/u.test(e.key))
+    {
+        // Type letter
+        previousSelectedCell.textContent = e.key.toUpperCase();
+        selectNextCell();
+    } else if (e.key === "Backspace") {
+        // Delete letter
+        if (previousSelectedCell.textContent === "") {
+            selectNextCell(-1);
+        }
+        previousSelectedCell.textContent = "";
+    }
+});

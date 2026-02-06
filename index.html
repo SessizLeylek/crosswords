@@ -15,108 +15,42 @@
             max-width: 90vh;
             margin: auto;
         }
-
-        .top-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .top-row select {
-            flex: 2;
-        }
-
-        .top-row button {
-            flex: 1;
-        }
-
-        .top-row p {
-            margin: 0;
-            flex: none;
-        }
-
-        .long-text {
-            text-align: justify;
-            hyphens: auto;
-        }
-
-        textarea {
-            width: 100%;
-            height: 200px;
-            resize: vertical;
-            margin-bottom: 10px;
-            font-family: monospace;
-            font-size: 16px;
-            line-height: 1.4;
-            background-color: transparent;
-            backdrop-filter: blur(5px);
-        }
-
-        
-        .highlight-layer {
-            position: absolute;
-            pointer-events: none;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: monospace;
-            font-size: 16px;
-            line-height: 1.4;
-            padding: 8px;
-            text-align: left;
-            color: transparent;
-            z-index: -1;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
-
-        .footer {
-            margin-top: 20px;
-            color: #666;
-            font-size: 14px;
-        }
-
-        .mark {
-            background: rgba(127, 127, 255, 0.35);
-        }
-
     </style>
 </head>
 <body>
 
-    <div class="container" id="generator">
-        <h1>Sessizleylek's Crossword Generator</h1>
-        <p class="long-text">Welcome to SessizLeylek's Crossword Generator, where you can create puzzles by entering your data in the format <em>THEANSWER=The question for the answer</em>. The answer must be written in all caps with no spaces or special characters allowed. After you have finished entering all your pairs, click "Generate Crossword" to produce a link that allows you to play the puzzle or send it to your friends. Keep in mind that the generated links will probably exceed 3k characters in length. Some browsers may not be able to handle such long URLs.</p>
+    <div class="container">
+        <div id="generator">
+            <h1>Sessizleylek's Crossword Generator</h1>
+            <p class="long-text">Welcome to SessizLeylek's Crossword Generator, where you can create puzzles by entering your data in the format <em>THEANSWER=The question for the answer</em>. The answer must be written in all caps with no spaces or special characters allowed. After you have finished entering all your pairs, click "Generate Crossword" to produce a link that allows you to play the puzzle or send it to your friends. Keep in mind that the generated links will probably exceed 3k characters in length. Some browsers may not be able to handle such long URLs.</p>
 
-        <div class="top-row">
-            <p>Presets: </p>
+            <div class="top-row">
+                <p>Presets: </p>
 
-            <select id="preset-select">
-                <option value="russian-english">Russian-English Vocabulary</option>
-                <option value="game-characters">Video Game Characters</option>
-                <option value="countries-cities">Countries And Cities</option>
-            </select>
+                <select id="preset-select">
+                    <option value="russian-english">Russian-English Vocabulary</option>
+                    <option value="game-characters">Video Game Characters</option>
+                    <option value="countries-cities">Countries And Cities</option>
+                </select>
 
-            <button onclick="insertPreset()">Add To The List</button>
-            <button onclick="clearList()">Clear List</button>
+                <button onclick="insertPreset()">Add To The List</button>
+                <button onclick="clearList()">Clear List</button>
+            </div>
+
+            <textarea id="clue-pairs" placeholder="i.e.&#10;ALBERTEINSTEIN=The Discoverer of the Theory of Relativity"></textarea>
+
+            <button id="generate-button" onclick="generateCrossword()">Generate Crossword</button>
+
+            <p id="puzzle-link"></p>
+
+            <div class="footer">
+                Made by Kursat Kuyumcu
+            </div>
+
+            <div id="hl" class="highlight-layer"></div>
+        
+            <script src="initializer.js"></script>
         </div>
-
-        <textarea id="clue-pairs" placeholder="i.e.&#10;ALBERTEINSTEIN=The Discoverer of the Theory of Relativity"></textarea>
-
-        <button id="generate-button" onclick="generateCrossword()">Generate Crossword</button>
-
-        <p id="puzzle-link"></p>
-
-        <div class="footer">
-            Made by Kursat Kuyumcu
-        </div>
-
-        <div id="hl" class="highlight-layer"></div>
-    
-        <script src="initializer.js"></script>
     </div>
-
-
 </body>
 </html>

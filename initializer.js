@@ -25,5 +25,6 @@
         loadStyle("puzzle-style.css");
     } else {
         loadScript("generator.js");
+        loadStyle("generator-style.css");
     }
 })();
