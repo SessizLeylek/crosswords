@@ -8,6 +8,7 @@ if (!puzzleCode) {
     alert("No puzzle code provided in URL.");
 }
 
+const gridScale = { x: 0, y: 0 };
 const placements = [];      // { x, y, direction, word, clue }
 const referenceGrid = [];   // { accross, down } references to placements, 0..n-1 placement index
 const solutionGrid = [];    // the grid rendered to the user, 0 empty, char codes for letters
@@ -15,7 +16,9 @@ const cellMap = [];         // map of cell elements for easy access
 
 parsePuzzleCode(puzzleCode); 
 const g = generateGrids(placements);
-buildPuzzle(g.width, g.height);
+buildPuzzle();
+
+const clueTextDiv = document.getElementById("clue-text");
 
 function decodeBase64Url(base64url) {
     // base64url -> base64
@@ -119,17 +122,21 @@ function generateGrids(placements) {
         }
     }
 
-    return { width: maxX, height: maxY};
+    gridScale.x = maxX;
+    gridScale.y = maxY;
 }
 
-function buildPuzzle(width, height) {
+function buildPuzzle() {
+    // puzzle generation
     const crosswordDiv = document.createElement("div");
     crosswordDiv.id = "crossword";
     document.querySelector(".container").appendChild(crosswordDiv);
 
-    crosswordDiv.style.gridTemplateColumns = `repeat(${width}, 1fr)`;
-    crosswordDiv.style.gridTemplateRows = `repeat(${height}, 1fr)`;
+    crosswordDiv.style.gridTemplateColumns = `repeat(${gridScale.x}, 1fr)`;
+    crosswordDiv.style.gridTemplateRows = `repeat(${gridScale.y}, 1fr)`;
     crosswordDiv.innerHTML = "";
+
+    refreshPuzzleScale();
 
     for (let y = 0; y < solutionGrid.length; y++) {
         const cellMapRow = [];
@@ -156,6 +163,20 @@ function buildPuzzle(width, height) {
 
         cellMap.push(cellMapRow);
     }
+
+    // clue text
+    const clueDiv = document.createElement("div");
+    clueDiv.id = "clue-text";
+    document.querySelector(".container").appendChild(clueDiv);
+}
+
+function refreshPuzzleScale() {
+    const vw = window.innerWidth * 0.9;
+    const vh = window.innerHeight - 100;
+    const scaleFactor = Math.min(vw / gridScale.x, vh / gridScale.y);
+    document.documentElement.style.setProperty('--puzzle-width', `${gridScale.x * scaleFactor}px`);
+    document.documentElement.style.setProperty('--puzzle-height', `${gridScale.y * scaleFactor}px`);
+    document.documentElement.style.setProperty('--scale-factor', scaleFactor);
 }
 
 var previousSelectedCell = null;
@@ -197,6 +218,8 @@ function onCellSelect(cell, resetDirection = false) {
 
     const placement = placements[selectedDirection ? cellReferences.down : cellReferences.accross];
 
+    clueTextDiv.textContent = placement ? placement.clue : "";
+
     if (!placement) {
         console.error("No placement found for selected cell and direction.");
         return;
@@ -230,6 +253,8 @@ function clearHighlights() {
         c.classList.remove("highlighted");
     }
     previousHighlightedCells.length = 0;
+
+    clueTextDiv.textContent = "";
 }
 
 function selectNextCell(delta = 1) {
@@ -267,6 +292,11 @@ document.addEventListener("keydown", (e) => {
         if (previousSelectedCell.textContent === "") {
             selectNextCell(-1);
         }
-        previousSelectedCell.textContent = "";
+
+        if (previousSelectedCell) {
+            previousSelectedCell.textContent = "";
+        }
     }
 });
+
+window.addEventListener("resize", refreshPuzzleScale);

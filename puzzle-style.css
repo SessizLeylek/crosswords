@@ -1,24 +1,26 @@
+
 body {
+    overflow: hidden;
     background: #eef;
 }
 
 #crossword {
     display: grid;
-    width: 800px;
-    height: 800px;
+    width: var(--puzzle-width);
+    height: var(--puzzle-height);
 }
 
 .cell {
     background: #114;
-    border: 1px solid #eef;
-    border-radius: 10px;
+    border: calc(var(--scale-factor) * 0.01px) solid #eef;
+    border-radius: calc(var(--scale-factor) * 0.25px);
     box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: monospace;
-    font-size: 30px;
-    font-weight: bolder;
+    font-size: calc(var(--scale-factor) * 0.75px);
+    font-weight: calc(var(--scale-factor) * 0.125px);
     overflow: hidden;
     color:#eef;
 
@@ -36,4 +38,11 @@ body {
 
 .highlighted {
     background: #229;
+}
+
+#clue-text {
+    margin: 24px;
+    font-size: 24px;
+    min-height: 50px;
+    color: #113;
 }
