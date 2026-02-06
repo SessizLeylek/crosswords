@@ -12,9 +12,17 @@
         document.head.appendChild(s);
     }
 
+    function loadStyle(href) {
+        const l = document.createElement("link");
+        l.rel = "stylesheet";
+        l.href = href;
+        document.head.appendChild(l);
+    }
+
     if (hasP) {
         document.getElementById("generator")?.remove();
         loadScript("puzzle.js");
+        loadStyle("puzzle-style.css");
     } else {
         loadScript("generator.js");
     }

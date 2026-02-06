@@ -257,7 +257,7 @@ function generatePuzzleCode(keys, values) {
             }
         }
     }*/
-    
+
     // Precompute buffer size to avoid reallocations
     const encoder = new TextEncoder();
     let totalTextLength = 0;
@@ -265,13 +265,13 @@ function generatePuzzleCode(keys, values) {
         totalTextLength += encoder.encode(keys[placement.idx]).length + 1;
         totalTextLength += encoder.encode(values[placement.idx]).length + 1;
     }
-    
+
     // Serialize puzzle into a single binary blob
     const bufferSize = placementMetadata.length + totalTextLength;
     const buffer = new ArrayBuffer(bufferSize);
     const view = new DataView(buffer);
     let offset = 0;
-    
+
     console.log("Buffer size:", bufferSize);
 
     // Store grid dimensions, can be derived from placements instead

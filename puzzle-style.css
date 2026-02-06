@@ -1,0 +1,24 @@
+body {
+    background: #eef;
+}
+
+#crossword {
+    display: grid;
+    width: 800px;
+    height: 800px;
+}
+
+.cell {
+    background: #114;
+    border: 1px solid #eef;
+    border-radius: 10px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: monospace;
+}
+
+.void {
+    background: #eef;
+}
