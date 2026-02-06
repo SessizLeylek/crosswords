@@ -40,6 +40,10 @@ body {
     background: #229;
 }
 
+.solved {
+    background: #292;
+}
+
 #clue-text {
     margin: 24px;
     font-size: 24px;

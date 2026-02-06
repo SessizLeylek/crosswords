@@ -14,7 +14,10 @@ const referenceGrid = [];   // { accross, down } references to placements, 0..n-
 const solutionGrid = [];    // the grid rendered to the user, 0 empty, char codes for letters
 const cellMap = [];         // map of cell elements for easy access
 
-parsePuzzleCode(puzzleCode); 
+let solvedCount = 0;
+const startTime = Date.now()
+
+parsePuzzleCode(puzzleCode);
 const g = generateGrids(placements);
 buildPuzzle();
 
@@ -146,18 +149,18 @@ function buildPuzzle() {
             cell.className = "cell";
 
             cellMapRow.push(cell);
-    
+
             if (solutionGrid[y][x] === 0) {
                 cell.classList.add("void");
             } else {
                 cell.dataset.x = x;
                 cell.dataset.y = y;
-                cell.textContent = solutionGrid[y][x] ? String.fromCharCode(solutionGrid[y][x]) : ""; 
+                cell.textContent = solutionGrid[y][x] ? String.fromCharCode(solutionGrid[y][x]) : "";
                 cell.addEventListener("click", () => {
                     onCellSelect(cell, true);
                 });
             }
-    
+
             crosswordDiv.appendChild(cell);
         }
 
@@ -185,6 +188,7 @@ const previousHighlightedCells = [];
 function onCellSelect(cell, resetDirection = false) {
     // select cell, deselect previous
     const isSelectedAgain = cell.classList.contains("selected");
+    const isSolved = cell.classList.contains("solved");
     const x = parseInt(cell.dataset.x);
     const y = parseInt(cell.dataset.y);
     const cellReferences = referenceGrid[y][x];
@@ -194,6 +198,8 @@ function onCellSelect(cell, resetDirection = false) {
     }
 
     clearHighlights();
+
+    if (isSolved) return;
 
     if (isSelectedAgain) {
         // cycle direction
@@ -210,7 +216,7 @@ function onCellSelect(cell, resetDirection = false) {
         // new cell is selected, reset direction
         // if accross is available, select it by default
         if (cellReferences.accross !== -1) {
-            selectedDirection = 0; 
+            selectedDirection = 0;
         } else {
             selectedDirection = 1;
         }
@@ -224,12 +230,12 @@ function onCellSelect(cell, resetDirection = false) {
         console.error("No placement found for selected cell and direction.");
         return;
     }
-    
+
     if (!isSelectedAgain) {
         previousSelectedCell = cell;
         cell.classList.add("selected");
     }
-    
+
     // highlight word
     for (let i = 0; i < placement.word.length; i++) {
         const cx = placement.x + (placement.direction === 0 ? i : 0);
@@ -260,32 +266,153 @@ function clearHighlights() {
 function selectNextCell(delta = 1) {
     if (!previousSelectedCell) return;
 
-    const x = parseInt(previousSelectedCell.dataset.x);
-    const y = parseInt(previousSelectedCell.dataset.y);
+    let nextCell = previousSelectedCell;
+    do {
+        const x = parseInt(nextCell.dataset.x);
+        const y = parseInt(nextCell.dataset.y);
 
-    let nextCell = null;
-    if (selectedDirection === 0) { // across
-        nextCell = cellMap[y][x + delta];
-    } else { // down
-        nextCell = cellMap[y + delta] ? cellMap[y + delta][x] : null;
-    }
+        if (selectedDirection === 0) { // across
+            nextCell = cellMap[y][x + delta];
+        } else { // down
+            nextCell = cellMap[y + delta] ? cellMap[y + delta][x] : null;
+        }
 
-    if (!nextCell || nextCell.classList.contains("void")) {
-        deselectCurrentCell();
-        clearHighlights();
-        return;
-    }
+        if (!nextCell || nextCell.classList.contains("void")) {
+            deselectCurrentCell();
+            clearHighlights();
+            return;
+        }
+    } while (nextCell.classList.contains("solved")); // skip if is solved
 
     onCellSelect(nextCell);
+}
+
+function checkIfSolved() {
+    const x = parseInt(previousSelectedCell.dataset.x);
+    const y = parseInt(previousSelectedCell.dataset.y);
+    const cellReferences = referenceGrid[y][x];
+    const placement = placements[selectedDirection ? cellReferences.down : cellReferences.accross];
+
+    let correctLetterCount = 0;
+    const iteratedCells = [];
+    for (let i = 0; i < placement.word.length; i++) {
+        const cx = placement.x + (placement.direction === 0 ? i : 0);
+        const cy = placement.y + (placement.direction === 1 ? i : 0);
+        const cell = cellMap[cy][cx];
+        if (cell && cell.textContent === placement.word[i]) {
+            correctLetterCount++;
+            iteratedCells.push(cell);
+        }
+    }
+
+    if (correctLetterCount === placement.word.length) {
+        solvedCount++;
+        if (solvedCount === placements.length) {
+            const elapsedTime = ((Date.now() - startTime) * 0.001).toFixed(1);
+            showSuccessDialog(elapsedTime);
+        }
+
+        for (const c of iteratedCells) {
+            c.classList.add("solved");
+        }
+    }
+}
+
+function showSuccessDialog(completionTime) {
+  if (document.getElementById('success-overlay')) return;
+
+  // inject CSS once
+  if (!document.getElementById('success-dialog-style')) {
+    const style = document.createElement('style');
+    style.id = 'success-dialog-style';
+    style.textContent = `
+        #success-overlay {
+            position: fixed;
+            inset: 0;
+            background: #88f1;
+            z-index: 2147483647;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background .25s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        #success-overlay.show {
+            background: #88f9;
+        }
+
+        #success-dialog {
+            background: #114;
+            color: #eef;
+            padding: 10vh 10vw;
+            border-radius: 6px;
+            min-width: 200px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity .25s ease, transform .25s ease;
+        }
+
+        #success-overlay.show #success-dialog {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #success-title {
+            font-size: 4vw;
+        }
+
+        #success-text {
+            font-size: 2vw;
+            padding: 24px;
+        }
+
+        #success-ok {
+            background: #88f;
+            color: #eef;
+            border-radius: 6px;
+            border: none;
+            padding: 6px 24px;
+            font-size: 2vw;
+        }
+    `;
+    document.head.appendChild(style);
+  }
+
+  const html = `
+    <div id="success-overlay">
+      <div id="success-dialog">
+        <h2 id="success-title">Congratulations!</h2>
+        <p id="success-text">You completed the crossword in ${completionTime} seconds.</p>
+        <button id="success-ok">OK</button>
+      </div>
+    </div>
+  `;
+
+  document.body.insertAdjacentHTML('beforeend', html);
+
+  // force next frame so transition actually runs
+  requestAnimationFrame(() =>
+    document.getElementById('success-overlay').classList.add('show')
+  );
+
+  document.getElementById('success-ok').onclick = () => {
+    const overlay = document.getElementById('success-overlay');
+    overlay.classList.remove('show');
+    overlay.addEventListener('transitionend', () => overlay.remove(), {
+      once: true
+    });
+  };
 }
 
 document.addEventListener("keydown", (e) => {
     if (!previousSelectedCell) return;
 
-    if (e.key.length === 1 && /^\p{L}$/u.test(e.key))
-    {
+    if (e.key.length === 1 && /^\p{L}$/u.test(e.key)) {
         // Type letter
         previousSelectedCell.textContent = e.key.toUpperCase();
+        checkIfSolved();
         selectNextCell();
     } else if (e.key === "Backspace") {
         // Delete letter
