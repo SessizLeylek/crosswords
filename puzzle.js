@@ -23,6 +23,34 @@ buildPuzzle();
 
 const clueTextDiv = document.getElementById("clue-text");
 
+const audioCtx = new AudioContext();
+const sounds = {};
+
+async function loadSound(name, url) {
+    const res = await fetch(url);
+    const buf = await res.arrayBuffer();
+    sounds[name] = await audioCtx.decodeAudioData(buf);
+}
+
+function playSound(name) {
+    const src = audioCtx.createBufferSource();
+    src.buffer = sounds[name];
+    src.connect(audioCtx.destination);
+    src.start();
+}
+
+async function loadAllSounds() {
+    await Promise.all([
+        loadSound("type0", "res/type0.ogg"),
+        loadSound("type1", "res/type1.ogg"),
+        loadSound("type2", "res/type2.ogg"),
+        loadSound("click", "res/click.ogg"),
+        loadSound("solve", "res/solve.ogg"),
+        loadSound("success", "res/success.ogg"),
+    ]);
+}
+loadAllSounds();
+
 function decodeBase64Url(base64url) {
     // base64url -> base64
     let base64 = base64url
@@ -157,6 +185,7 @@ function buildPuzzle() {
                 cell.dataset.y = y;
                 cell.textContent = solutionGrid[y][x] ? String.fromCharCode(solutionGrid[y][x]) : "";
                 cell.addEventListener("click", () => {
+                    playSound("click");
                     onCellSelect(cell, true);
                 });
             }
@@ -310,6 +339,9 @@ function checkIfSolved() {
         if (solvedCount === placements.length) {
             const elapsedTime = ((Date.now() - startTime) * 0.001).toFixed(1);
             showSuccessDialog(elapsedTime);
+            playSound("success");
+        } else {
+            playSound("solve");
         }
 
         for (const c of iteratedCells) {
@@ -319,13 +351,13 @@ function checkIfSolved() {
 }
 
 function showSuccessDialog(completionTime) {
-  if (document.getElementById('success-overlay')) return;
+    if (document.getElementById('success-overlay')) return;
 
-  // inject CSS once
-  if (!document.getElementById('success-dialog-style')) {
-    const style = document.createElement('style');
-    style.id = 'success-dialog-style';
-    style.textContent = `
+    // inject CSS once
+    if (!document.getElementById('success-dialog-style')) {
+        const style = document.createElement('style');
+        style.id = 'success-dialog-style';
+        style.textContent = `
         #success-overlay {
             position: fixed;
             inset: 0;
@@ -377,10 +409,10 @@ function showSuccessDialog(completionTime) {
             font-size: 2vw;
         }
     `;
-    document.head.appendChild(style);
-  }
+        document.head.appendChild(style);
+    }
 
-  const html = `
+    const html = `
     <div id="success-overlay">
       <div id="success-dialog">
         <h2 id="success-title">Congratulations!</h2>
@@ -390,20 +422,20 @@ function showSuccessDialog(completionTime) {
     </div>
   `;
 
-  document.body.insertAdjacentHTML('beforeend', html);
+    document.body.insertAdjacentHTML('beforeend', html);
 
-  // force next frame so transition actually runs
-  requestAnimationFrame(() =>
-    document.getElementById('success-overlay').classList.add('show')
-  );
+    // force next frame so transition actually runs
+    requestAnimationFrame(() =>
+        document.getElementById('success-overlay').classList.add('show')
+    );
 
-  document.getElementById('success-ok').onclick = () => {
-    const overlay = document.getElementById('success-overlay');
-    overlay.classList.remove('show');
-    overlay.addEventListener('transitionend', () => overlay.remove(), {
-      once: true
-    });
-  };
+    document.getElementById('success-ok').onclick = () => {
+        const overlay = document.getElementById('success-overlay');
+        overlay.classList.remove('show');
+        overlay.addEventListener('transitionend', () => overlay.remove(), {
+            once: true
+        });
+    };
 }
 
 document.addEventListener("keydown", (e) => {
@@ -414,6 +446,8 @@ document.addEventListener("keydown", (e) => {
         previousSelectedCell.textContent = e.key.toUpperCase();
         checkIfSolved();
         selectNextCell();
+
+        playSound("type"+(Math.random() % 3));
     } else if (e.key === "Backspace") {
         // Delete letter
         if (previousSelectedCell.textContent === "") {
@@ -423,7 +457,30 @@ document.addEventListener("keydown", (e) => {
         if (previousSelectedCell) {
             previousSelectedCell.textContent = "";
         }
+    } else if (e.key === "ArrowLeft") {
+        selectedDirection = 0;
+        selectNextCell(-1);
+    } else if (e.key === "ArrowRight") {
+        selectedDirection = 0;
+        selectNextCell(+1);
+    } else if (e.key === "ArrowUp") {
+        selectedDirection = 1;
+        selectNextCell(-1);
+    } else if (e.key === "ArrowDown") {
+        selectedDirection = 1;
+        selectNextCell(+1);
     }
 });
 
 window.addEventListener("resize", refreshPuzzleScale);
+
+let audioUnlocked = false;
+
+function unlockAudio() {
+  if (audioUnlocked) return;
+  audioUnlocked = true;
+  audioCtx.resume();
+}
+
+document.addEventListener("pointerdown", unlockAudio, { once: true });
+document.addEventListener("keydown", unlockAudio, { once: true });
