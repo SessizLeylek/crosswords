@@ -447,7 +447,7 @@ document.addEventListener("keydown", (e) => {
         checkIfSolved();
         selectNextCell();
 
-        playSound("type"+(Math.random() % 3));
+        playSound("type"+Math.floor(Math.random() * 3));
     } else if (e.key === "Backspace") {
         // Delete letter
         if (previousSelectedCell.textContent === "") {
