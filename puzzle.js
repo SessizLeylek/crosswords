@@ -200,15 +200,113 @@ function buildPuzzle() {
     const clueDiv = document.createElement("div");
     clueDiv.id = "clue-text";
     document.querySelector(".container").appendChild(clueDiv);
+
+    // keyboard, if window is vertical
+    if (window.innerWidth * 1.5 < window.innerHeight) {
+        // detect language
+        const keyMap = [
+            { k: "tr", chars: "ĞİŞÖÇÜ" },                           // Turkish
+            { k: "pl", chars: "ĄĆĘŁŃÓŚŻŹ" },                        // Polish
+            { k: "de", chars: "ÄÖÜẞ" },                             // German
+            { k: "es", chars: "Ñ" },                              // Spanish
+            { k: "pt", chars: "ÃÕÇÂÊÔ" },                           // Portugese
+            { k: "fr", chars: "ŒÆÊËÎÏÛÙÇ" },                        // French
+            { k: "it", chars: "ÀÈÌÒÙ" },                            // Italian
+            { k: "en", chars: "ABCDEFGHIJKLMNOQPRSTUVWXYZ" },       // (fallback Latin)
+            { k: "uk", chars: "ІЇЄҐ" },                             // Ukrainian
+            { k: "sr", chars: "ЉЊЋЂЏ" },                            // Serbian
+            { k: "mk", chars: "ЃЌЉЊЅ" },                            // Macedonian
+            { k: "kz", chars: "ӘҒҚҢӨҰҮҺІ" },                        // Kazakh
+            { k: "mn", chars: "ӨҮ" },                               // Mongolian
+            { k: "ru", chars: "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ" },// (fallback Cyrillic)
+            { k: "el", chars: "ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ" },         // Greek
+        ];
+
+        let keyboard = "";
+
+        let allWords = "";
+        for (const p of placements) {
+            allWords += p.word;
+        }
+
+        for (const { k, chars } of keyMap) {
+            if ([...chars].some(c => allWords.includes(c))) {
+                keyboard = k;
+                break;
+            }
+        }
+
+        // english check
+        if (keyboard === "") {
+            alert("Invalid characters detected in word list!");
+            return;
+        }
+        console.log("detected language: ", keyboard);
+
+        const layoutMap = {
+            "tr": ["QWERTYUIOPĞÜ", "ASDFGHJKLŞİ", "ZXCVBNMÖÇ"],
+            "pl": ["QWERTYUIOPĘÓ", "ASDFGHJKLĄŚŁ", "ZXCVBNMĆŃŻŹ"],
+            "de": ["QWERTYUIOPÜ", "ASDFGHJKLÄÖ", "ZXCVBNMß"],
+            "es": ["QWERTYUIOP", "ASDFGHJKLÑ", "ZXCVBNM"],
+            "pt": ["QWERTYUIOPÃÂ", "ASDFGHJKLÇÊ", "ZXCVBNMÕÔ"],
+            "fr": ["QWERTYUIOPÊË", "ASDFGHJKLÇÎÏ", "ZXCVBNMÛÙŒÆ"],
+            "it": ["QWERTYUIOPÈ", "ASDFGHJKLÀ", "ZXCVBNMÙÌÒ"],
+            "en": ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"],
+            "uk": ["ЙЦУКЕНГШЩЗХЪЄ", "ФЫВАПРОЛДЖІ", "ЯЧСМИТЬБЮЇҐ"],
+            "sr": ["ЉЊЕРТЗУИОПШ", "АСДФГХЈКЛЧЋ", "ЗЂЦВБНМЏ"],
+            "mk": ["ЉЊЕРТЅУИОПШ", "АСДФГХЈКЛЌЃ", "ЗЏЦВБНМ"],
+            "kz": ["ЙЦУКЕНГШЩЗХЪҒҚ", "ФЫВАПРОЛДЖЭӘӨІ", "ЯЧСМИТЬБЮҢҰҮҺ"],
+            "mn": ["ЙЦУКЕНГШЩЗХҮ", "ФӨВАПРОЛДЖ", "ЯЧСМИТЬБЮ"],
+            "ru": ["ЙЦУКЕНГШЩЗХЪ", "ФЫВАПРОЛДЖЭ", "ЯЧСМИТЬБЮ"],
+            "el": ["ΣΕΡΤΥΘΙΟΠ", "ΑΣΔΦΓΗΞΚΛ", "ΖΧΨΩΒΝΜ"],
+        };
+
+        const decidedLayout = layoutMap[keyboard];
+
+        const keyboardDiv = document.createElement("div");
+        const keyboardFirstRowDiv = document.createElement("div");
+        const keyboardSecondRowDiv = document.createElement("div");
+        const keyboardThirdRowDiv = document.createElement("div");
+        document.querySelector(".container").appendChild(keyboardDiv);
+        keyboardDiv.appendChild(keyboardFirstRowDiv);
+        keyboardDiv.appendChild(keyboardSecondRowDiv);
+        keyboardDiv.appendChild(keyboardThirdRowDiv);
+
+        keyboardDiv.className = "keyboard";
+        keyboardFirstRowDiv.className = "keyboard-row";
+        keyboardSecondRowDiv.className = "keyboard-row";
+        keyboardThirdRowDiv.className = "keyboard-row";
+        keyboardFirstRowDiv.style.gridTemplateColumns = `repeat(${decidedLayout[0].length}, 1fr)`;
+        keyboardSecondRowDiv.style.gridTemplateColumns = `repeat(${decidedLayout[1].length}, 1fr)`;
+        keyboardThirdRowDiv.style.gridTemplateColumns = `repeat(${decidedLayout[2].length}, 1fr)`;
+
+        const generateRow = (rowDiv, n) => {for (let i = 0; i < decidedLayout[n].length; i++) {
+            const keyButton = document.createElement("div");
+            rowDiv.appendChild(keyButton);
+            keyButton.className = "key-button";
+
+            keyButton.textContent = decidedLayout[n][i];
+            keyButton.addEventListener("click", () => {
+                if (!previousSelectedCell) return;
+                typeLetter(decidedLayout[n][i]);
+            });
+        }};
+
+        generateRow(keyboardFirstRowDiv, 0);
+        generateRow(keyboardSecondRowDiv, 1);
+        generateRow(keyboardThirdRowDiv, 2);
+    }
 }
 
 function refreshPuzzleScale() {
-    const vw = window.innerWidth * 0.9;
-    const vh = window.innerHeight - 100;
+    const vw = Math.min(window.innerWidth, window.innerHeight * 0.9) - 40;
+    const vh = window.innerHeight * 0.9 - 88;
     const scaleFactor = Math.min(vw / gridScale.x, vh / gridScale.y);
     document.documentElement.style.setProperty('--puzzle-width', `${gridScale.x * scaleFactor}px`);
     document.documentElement.style.setProperty('--puzzle-height', `${gridScale.y * scaleFactor}px`);
     document.documentElement.style.setProperty('--scale-factor', scaleFactor);
+
+    console.log("height ", window.innerHeight);
 }
 
 var previousSelectedCell = null;
@@ -379,7 +477,9 @@ function showSuccessDialog(completionTime) {
             color: #eef;
             padding: 10vh 10vw;
             border-radius: 6px;
-            min-width: 200px;
+            min-width: 200px;    
+            max-width: 70vw;
+            max-height: 50vh;
             text-align: center;
             opacity: 0;
             transform: translateY(30px);
@@ -392,11 +492,11 @@ function showSuccessDialog(completionTime) {
         }
 
         #success-title {
-            font-size: 4vw;
+            font-size: calc(min(14vh, 9vw));
         }
 
         #success-text {
-            font-size: 2vw;
+            font-size: calc(min(3.5vh, 3vw));
             padding: 24px;
         }
 
@@ -406,7 +506,7 @@ function showSuccessDialog(completionTime) {
             border-radius: 6px;
             border: none;
             padding: 6px 24px;
-            font-size: 2vw;
+            font-size: calc(min(8vh, 6vw));
         }
     `;
         document.head.appendChild(style);
@@ -438,16 +538,20 @@ function showSuccessDialog(completionTime) {
     };
 }
 
+function typeLetter(letter) {
+    previousSelectedCell.textContent = letter;
+    checkIfSolved();
+    selectNextCell();
+
+    playSound("type"+Math.floor(Math.random() * 3));
+}
+
 document.addEventListener("keydown", (e) => {
     if (!previousSelectedCell) return;
 
     if (e.key.length === 1 && /^\p{L}$/u.test(e.key)) {
         // Type letter
-        previousSelectedCell.textContent = e.key.toUpperCase();
-        checkIfSolved();
-        selectNextCell();
-
-        playSound("type"+Math.floor(Math.random() * 3));
+        typeLetter(e.key.toUpperCase());
     } else if (e.key === "Backspace") {
         // Delete letter
         if (previousSelectedCell.textContent === "") {

@@ -20,7 +20,7 @@ body {
     justify-content: center;
     font-family: monospace;
     font-size: calc(var(--scale-factor) * 0.75px);
-    font-weight: calc(var(--scale-factor) * 0.125px);
+    font-weight: 600;
     overflow: hidden;
     color:#eef;
 
@@ -47,6 +47,39 @@ body {
 #clue-text {
     margin: 24px;
     font-size: 24px;
-    min-height: 50px;
+    height: 10vh;
     color: #113;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.keyboard {
+    display: flex;
+    flex-direction: column;
+    height: 25vh;
+}
+
+.keyboard-row {
+    display: grid;
+    flex: 1;
+}
+
+.key-button {
+    background: #55c;
+    color: #eef;
+    border-radius: 2vw;
+    margin: 0.5vw;
+    font-size: 4vw;
+    font-weight: 600;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.1s ease;
+}
+
+.key-button:active {
+    background: #338;
 }
