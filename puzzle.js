@@ -17,11 +17,17 @@ const cellMap = [];         // map of cell elements for easy access
 let solvedCount = 0;
 const startTime = Date.now()
 
+let maxHints = 0;
+let hintsLeft = 0;
+let hintCooldown = 0;
+const maxHintCooldown = 12;
+
 parsePuzzleCode(puzzleCode);
 const g = generateGrids(placements);
 buildPuzzle();
 
 const clueTextDiv = document.getElementById("clue-text");
+const hintTextDiv = document.getElementById("hint-text");
 
 const audioCtx = new AudioContext();
 const sounds = {};
@@ -139,19 +145,25 @@ function generateGrids(placements) {
     }
 
     // Place words in grid
+    let cellCount = 0;
     for (let i = 0; i < placements.length; i++) {
         const p = placements[i];
         for (let j = 0; j < p.word.length; j++) {
             const x = p.x + (p.direction === 0 ? j : 0);
             const y = p.y + (p.direction === 1 ? j : 0);
-            solutionGrid[y][x] = "";
+            solutionGrid[y][x] = p.word.charCodeAt(j);
             if (p.direction === 0) {
                 referenceGrid[y][x].accross = i;
             } else {
                 referenceGrid[y][x].down = i;
             }
         }
+
+        cellCount += p.word.length;
     }
+
+    maxHints = Math.ceil(cellCount / 20);
+    hintsLeft = maxHints;
 
     gridScale.x = maxX;
     gridScale.y = maxY;
@@ -183,7 +195,7 @@ function buildPuzzle() {
             } else {
                 cell.dataset.x = x;
                 cell.dataset.y = y;
-                cell.textContent = solutionGrid[y][x] ? String.fromCharCode(solutionGrid[y][x]) : "";
+                cell.textContent = "";
                 cell.addEventListener("click", () => {
                     playSound("click");
                     onCellSelect(cell, true);
@@ -198,8 +210,27 @@ function buildPuzzle() {
 
     // clue text
     const clueDiv = document.createElement("div");
-    clueDiv.id = "clue-text";
+    const clueText = document.createElement("div");
+    clueDiv.id = "clue-div";
+    clueText.id = "clue-text";
     document.querySelector(".container").appendChild(clueDiv);
+    clueDiv.appendChild(clueText);
+
+    // hint button
+    const hintDiv = document.createElement("div");
+    const hintButton = document.createElement("img");
+    const hintAmountText = document.createElement("div");
+    hintDiv.id = "hint-div";
+    hintButton.id = "hint-button";
+    hintAmountText.id = "hint-text";
+    clueDiv.appendChild(hintDiv);
+    hintDiv.appendChild(hintButton);
+    hintDiv.appendChild(hintAmountText);
+
+    hintAmountText.textContent = `${maxHints}/${maxHints}`;
+    hintButton.src = "res/bulb.svg";
+    hintButton.addEventListener("click", getHint);
+    document.documentElement.style.setProperty("--hint-fill", "0deg");
 
     // keyboard, if window is vertical
     if (window.innerWidth * 1.5 < window.innerHeight) {
@@ -244,21 +275,21 @@ function buildPuzzle() {
         console.log("detected language: ", keyboard);
 
         const layoutMap = {
-            "tr": ["QWERTYUIOPĞÜ", "ASDFGHJKLŞİ", "ZXCVBNMÖÇ"],
-            "pl": ["QWERTYUIOPĘÓ", "ASDFGHJKLĄŚŁ", "ZXCVBNMĆŃŻŹ"],
-            "de": ["QWERTYUIOPÜ", "ASDFGHJKLÄÖ", "ZXCVBNMß"],
-            "es": ["QWERTYUIOP", "ASDFGHJKLÑ", "ZXCVBNM"],
-            "pt": ["QWERTYUIOPÃÂ", "ASDFGHJKLÇÊ", "ZXCVBNMÕÔ"],
-            "fr": ["QWERTYUIOPÊË", "ASDFGHJKLÇÎÏ", "ZXCVBNMÛÙŒÆ"],
-            "it": ["QWERTYUIOPÈ", "ASDFGHJKLÀ", "ZXCVBNMÙÌÒ"],
-            "en": ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"],
-            "uk": ["ЙЦУКЕНГШЩЗХЪЄ", "ФЫВАПРОЛДЖІ", "ЯЧСМИТЬБЮЇҐ"],
-            "sr": ["ЉЊЕРТЗУИОПШ", "АСДФГХЈКЛЧЋ", "ЗЂЦВБНМЏ"],
-            "mk": ["ЉЊЕРТЅУИОПШ", "АСДФГХЈКЛЌЃ", "ЗЏЦВБНМ"],
-            "kz": ["ЙЦУКЕНГШЩЗХЪҒҚ", "ФЫВАПРОЛДЖЭӘӨІ", "ЯЧСМИТЬБЮҢҰҮҺ"],
-            "mn": ["ЙЦУКЕНГШЩЗХҮ", "ФӨВАПРОЛДЖ", "ЯЧСМИТЬБЮ"],
-            "ru": ["ЙЦУКЕНГШЩЗХЪ", "ФЫВАПРОЛДЖЭ", "ЯЧСМИТЬБЮ"],
-            "el": ["ΣΕΡΤΥΘΙΟΠ", "ΑΣΔΦΓΗΞΚΛ", "ΖΧΨΩΒΝΜ"],
+            "tr": ["QWERTYUIOPĞÜ", "ASDFGHJKLŞİ", "ZXCVBNMÖÇ⇦"],
+            "pl": ["QWERTYUIOPĘÓ", "ASDFGHJKLĄŚŁ", "ZXCVBNMĆŃŻŹ⇦"],
+            "de": ["QWERTYUIOPÜ", "ASDFGHJKLÄÖ", "ZXCVBNMß⇦"],
+            "es": ["QWERTYUIOP", "ASDFGHJKLÑ", "ZXCVBNM⇦"],
+            "pt": ["QWERTYUIOPÃÂ", "ASDFGHJKLÇÊ", "ZXCVBNMÕÔ⇦"],
+            "fr": ["QWERTYUIOPÊË", "ASDFGHJKLÇÎÏ", "ZXCVBNMÛÙŒÆ⇦"],
+            "it": ["QWERTYUIOPÈ", "ASDFGHJKLÀ", "ZXCVBNMÙÌÒ⇦"],
+            "en": ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM⇦"],
+            "uk": ["ЙЦУКЕНГШЩЗХЪЄ", "ФЫВАПРОЛДЖІ", "ЯЧСМИТЬБЮЇҐ⇦"],
+            "sr": ["ЉЊЕРТЗУИОПШ", "АСДФГХЈКЛЧЋ", "ЗЂЦВБНМЏ⇦"],
+            "mk": ["ЉЊЕРТЅУИОПШ", "АСДФГХЈКЛЌЃ", "ЗЏЦВБНМ⇦"],
+            "kz": ["ЙЦУКЕНГШЩЗХЪҒҚ", "ФЫВАПРОЛДЖЭӘӨІ", "ЯЧСМИТЬБЮҢҰҮҺ⇦"],
+            "mn": ["ЙЦУКЕНГШЩЗХҮ", "ФӨВАПРОЛДЖ", "ЯЧСМИТЬБЮ⇦"],
+            "ru": ["ЙЦУКЕНГШЩЗХЪ", "ФЫВАПРОЛДЖЭ", "ЯЧСМИТЬБЮ⇦"],
+            "el": ["ΣΕΡΤΥΘΙΟΠ", "ΑΣΔΦΓΗΞΚΛ", "ΖΧΨΩΒΝΜ⇦"],
         };
 
         const decidedLayout = layoutMap[keyboard];
@@ -286,10 +317,19 @@ function buildPuzzle() {
             keyButton.className = "key-button";
 
             keyButton.textContent = decidedLayout[n][i];
-            keyButton.addEventListener("click", () => {
-                if (!previousSelectedCell) return;
-                typeLetter(decidedLayout[n][i]);
-            });
+            if (decidedLayout[n][i] === "⇦") {
+                // delete functionality
+                keyButton.addEventListener("click", () => {
+                    if (!previousSelectedCell) return;
+                    deleteLetter();
+                });
+            } else {
+                // type functionality
+                keyButton.addEventListener("click", () => {
+                    if (!previousSelectedCell) return;
+                    typeLetter(decidedLayout[n][i]);
+                });
+            }
         }};
 
         generateRow(keyboardFirstRowDiv, 0);
@@ -305,8 +345,6 @@ function refreshPuzzleScale() {
     document.documentElement.style.setProperty('--puzzle-width', `${gridScale.x * scaleFactor}px`);
     document.documentElement.style.setProperty('--puzzle-height', `${gridScale.y * scaleFactor}px`);
     document.documentElement.style.setProperty('--scale-factor', scaleFactor);
-
-    console.log("height ", window.innerHeight);
 }
 
 var previousSelectedCell = null;
@@ -448,6 +486,36 @@ function checkIfSolved() {
     }
 }
 
+function getHint() {
+    if (hintsLeft <= 0 || hintCooldown > 0) return;
+    
+    const unsolvedCells = [];
+    for (const cellRow of cellMap) {
+        for (const cell of cellRow) {
+            if (cell.classList.contains("void") || cell.classList.contains("solved")) continue;
+            
+            unsolvedCells.push(cell);
+        }
+    }
+    
+    if (unsolvedCells.length === 0) return;
+    
+    const selectedCell = unsolvedCells[Math.floor(Math.random() * unsolvedCells.length)];
+    
+    // use hint
+    if (previousSelectedCell) {
+        deselectCurrentCell();
+        clearHighlights();
+    }
+    onCellSelect(selectedCell, true);
+    typeLetter(String.fromCharCode(solutionGrid[selectedCell.dataset.y][selectedCell.dataset.x]));
+    selectedCell.classList.add("solved");
+
+    hintsLeft--;
+    hintTextDiv.textContent = `${hintsLeft}/${maxHints}`;
+    hintCooldown = maxHintCooldown;
+}
+
 function showSuccessDialog(completionTime) {
     if (document.getElementById('success-overlay')) return;
 
@@ -493,11 +561,11 @@ function showSuccessDialog(completionTime) {
 
         #success-title {
             font-size: calc(min(14vh, 9vw));
+            margin-block-end: 0;
         }
 
         #success-text {
             font-size: calc(min(3.5vh, 3vw));
-            padding: 24px;
         }
 
         #success-ok {
@@ -538,12 +606,26 @@ function showSuccessDialog(completionTime) {
     };
 }
 
+function playTypingSound() {
+    playSound("type"+Math.floor(Math.random() * 3));
+}
+
 function typeLetter(letter) {
     previousSelectedCell.textContent = letter;
     checkIfSolved();
     selectNextCell();
+    playTypingSound();
+}
 
-    playSound("type"+Math.floor(Math.random() * 3));
+function deleteLetter() {
+    if (previousSelectedCell.textContent === "") {
+        selectNextCell(-1);
+    }
+
+    if (previousSelectedCell) {
+        previousSelectedCell.textContent = "";
+        playTypingSound();
+    }
 }
 
 document.addEventListener("keydown", (e) => {
@@ -554,13 +636,7 @@ document.addEventListener("keydown", (e) => {
         typeLetter(e.key.toUpperCase());
     } else if (e.key === "Backspace") {
         // Delete letter
-        if (previousSelectedCell.textContent === "") {
-            selectNextCell(-1);
-        }
-
-        if (previousSelectedCell) {
-            previousSelectedCell.textContent = "";
-        }
+        deleteLetter();
     } else if (e.key === "ArrowLeft") {
         selectedDirection = 0;
         selectNextCell(-1);
@@ -588,3 +664,15 @@ function unlockAudio() {
 
 document.addEventListener("pointerdown", unlockAudio, { once: true });
 document.addEventListener("keydown", unlockAudio, { once: true });
+
+setInterval(() => {
+    if (hintCooldown > 0) {
+        hintCooldown -= 0.01;
+
+        if (hintCooldown < 0) {
+            hintCooldown = 0;
+        }
+
+        document.documentElement.style.setProperty("--hint-fill", `${hintCooldown/maxHintCooldown*360}deg`);
+    }
+}, 10);

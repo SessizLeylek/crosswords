@@ -44,15 +44,43 @@ body {
     background: #292;
 }
 
-#clue-text {
-    margin: 24px;
-    font-size: 24px;
+#clue-div {
+    display: flex;
+    flex-direction: row;
     height: 10vh;
+}
+
+#clue-text {
     color: #113;
     text-align: center;
+    margin: 24px;
+    font-size: 24px;
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#hint-div {
+    display: flex;
+    flex-direction: column;
+    width: 8vh;
+}
+
+#hint-button {
+    flex: 1;
+    background: conic-gradient(#aa8 0deg var(--hint-fill), transparent var(--hint-fill) 360deg), #dd2;
+    border-radius: 2vh;
+    padding: 1vh;
+    margin: 1vh;
+}
+
+#hint-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    color: #b80;
 }
 
 .keyboard {
