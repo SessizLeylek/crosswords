@@ -20,7 +20,7 @@ const startTime = Date.now()
 let maxHints = 0;
 let hintsLeft = 0;
 let hintCooldown = 0;
-const maxHintCooldown = 12;
+const maxHintCooldown = 5;
 
 parsePuzzleCode(puzzleCode);
 const g = generateGrids(placements);
@@ -162,7 +162,7 @@ function generateGrids(placements) {
         cellCount += p.word.length;
     }
 
-    maxHints = Math.ceil(cellCount / 20);
+    maxHints = Math.ceil(cellCount / 12);
     hintsLeft = maxHints;
 
     gridScale.x = maxX;
@@ -514,6 +514,7 @@ function getHint() {
     hintsLeft--;
     hintTextDiv.textContent = `${hintsLeft}/${maxHints}`;
     hintCooldown = maxHintCooldown;
+    document.documentElement.style.setProperty("--hint-fill", "360deg");
 }
 
 function showSuccessDialog(completionTime) {
@@ -580,11 +581,14 @@ function showSuccessDialog(completionTime) {
         document.head.appendChild(style);
     }
 
+    const score = 0.75 * (1200000 / (1200 + Math.max(completionTime - (maxHints * 9), 0)))
+                + 0.25 * (1000 * hintsLeft / maxHints);
+
     const html = `
     <div id="success-overlay">
       <div id="success-dialog">
         <h2 id="success-title">Congratulations!</h2>
-        <p id="success-text">You completed the crossword in ${completionTime} seconds.</p>
+        <p id="success-text">You completed the crossword in ${completionTime} seconds using ${maxHints - hintsLeft} hints.<br>Your score is ${Math.ceil(score)}</p>
         <button id="success-ok">OK</button>
       </div>
     </div>
@@ -666,7 +670,7 @@ document.addEventListener("pointerdown", unlockAudio, { once: true });
 document.addEventListener("keydown", unlockAudio, { once: true });
 
 setInterval(() => {
-    if (hintCooldown > 0) {
+    if (hintCooldown > 0 && hintsLeft > 0) {    // do not update cooldown if no hints left
         hintCooldown -= 0.01;
 
         if (hintCooldown < 0) {

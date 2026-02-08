@@ -21,10 +21,11 @@ async function shareLink(link) {
     });
 }
 
+let wordCount = 0;
 function showPuzzleLink(puzzleCode) {
     const puzzleLinkElem = document.getElementById("puzzle-link");
     const url = `https://sessizleylek.github.io/crosswords?p=${encodeURIComponent(puzzleCode)}`;
-    puzzleLinkElem.innerHTML = `Your crossword puzzle is ready!<br><a href="${url}" target="_blank">Click here to view it</a>`;
+    puzzleLinkElem.innerHTML = `Your crossword puzzle is ready!<br>${wordCount} words are placed.<br><a href="${url}" target="_blank">Click here to view it</a>`;
 
     if (navigator.share) {
         puzzleLinkElem.innerHTML += ` or <a href="#" onclick="shareLink('${url}')">share it with your friends!</a>`;
@@ -204,6 +205,8 @@ function generatePuzzleCode(keys, values) {
         }
     }
 
+    wordCount = placements.length; // to display later
+
     // Compute bounding box to crop unused grid space
     let minX = gridSize, minY = gridSize, maxX = 0, maxY = 0;
     for (const placement of placements) {
@@ -309,7 +312,6 @@ function generatePuzzleCode(keys, values) {
         .replace(/\//g, '_')
         .replace(/=+$/, '');
 
-    console.log("Generated puzzle code:", base64url, " length:", base64url.length);
     return base64url;
 }
 
