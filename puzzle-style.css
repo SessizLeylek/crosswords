@@ -59,6 +59,9 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 #hint-div {
@@ -81,6 +84,9 @@ body {
     align-items: center;
     font-weight: 600;
     color: #b80;
+
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .keyboard {
@@ -106,6 +112,9 @@ body {
     justify-content: center;
     align-items: center;
     transition: 0.1s ease;
+
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .key-button:active {
