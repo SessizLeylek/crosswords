@@ -31,22 +31,20 @@ Rules:
 
 * One entry per line
 * First `=` splits key and clue
-* Keys are uppercased automatically
+* Keys must be uppercased
 * Empty clue is allowed
-* Lines without `=` are highlighted as invalid
 
 ---
 
 ## How crossword generation works
 
-* Fixed working grid: **20×20**
 * First word is placed randomly near center
 * Subsequent words:
 
   * Must intersect an existing word
   * Must not collide or touch illegally
   * Must respect crossword adjacency rules
-* Max **50 placed words** 
+* Max **250 placed words** 
 * Placement order is shuffled → non-deterministic layouts
 
 ---
