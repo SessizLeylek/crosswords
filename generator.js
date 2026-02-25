@@ -38,12 +38,15 @@ function generateCrossword() {
     button.disabled = true;
     button.textContent = "Generating...";
 
+    const gridSizeSelect = document.getElementById("grid-size-select");
+    const gridSize = parseInt(gridSizeSelect.value);
+
     // Parse input as KEY=CLUE pairs
     const lines = ta.value.split("\n");
     const keys = lines.map(line => line.split("=")[0].trim().toUpperCase());
     const values = lines.map(line => line.split("=")[1].trim() || "");
 
-    const puzzleCode = generatePuzzleCode(keys, values);
+    const puzzleCode = generatePuzzleCode(keys, values, gridSize);
     showPuzzleLink(puzzleCode);
 
     button.disabled = false;
@@ -59,12 +62,12 @@ function generateCrossword() {
 // null-terminated utf8 string: key
 // null-terminated utf8 string: clue text
 
-function generatePuzzleCode(keys, values) {
+function generatePuzzleCode(keys, values, gridSize = 20) {
     // Keep indices so keys/values stay linked after shuffling
     const indexArray = keys.map((_, i) => i);
 
     // Fixed-size working grid; stores which placement index occupies each cell
-    const gridSize = 20;
+    const maxPlacements = 250;
     const occupancy = Array.from({ length: gridSize }, () => new Array(gridSize).fill(-1));
     const placements = [];
 
@@ -85,7 +88,7 @@ function generatePuzzleCode(keys, values) {
 
     let initialPlacement = true;
     for (const idx of indexArray) {
-        if (placements.length >= 50) break; // Limit to 50 placements for storage size reasons
+        if (placements.length >= maxPlacements) break; // Limit to 50 placements for storage size reasons
 
         let skipPlacements = false;
 
@@ -101,6 +104,11 @@ function generatePuzzleCode(keys, values) {
             // Clamp so the word fits inside the grid
             if (randomDirection === 0 && randomX + len > gridSize) randomX = gridSize - len;
             if (randomDirection === 1 && randomY + len > gridSize) randomY = gridSize - len;
+
+            // Skip words that are too long for the grid
+            if (randomX < 0 || randomY < 0) continue; 
+            if (randomDirection === 0 && randomX + len > gridSize) continue;
+            if (randomDirection === 1 && randomY + len > gridSize) continue;
 
             placements.push({ x: randomX, y: randomY, dir: randomDirection, idx });
             for (let k = 0; k < len; k++) {
@@ -227,10 +235,6 @@ function generatePuzzleCode(keys, values) {
         return;
     }
 
-    // Create compact grid representation
-    const width = maxX - minX + 1;
-    const height = maxY - minY + 1;
-
     // PLACEMENT DATA
     const placementMetadataSize = placements.length * 3 + 1; // x, y, dir, plus number of placements
     const placementMetadata = new Uint8Array(placementMetadataSize);
@@ -312,9 +316,14 @@ function generatePuzzleCode(keys, values) {
         .replace(/\//g, '_')
         .replace(/=+$/, '');
 
+    if (base64url.length > 8000) {
+        wordCount = 0; // reset word count since the puzzle is not actually generated
+        alert("Generated puzzle is too large for URL storage. Please try a smaller puzzle.");
+        return "";
+    }
+
     return base64url;
 }
-
 
 // TEXT HIGHLIGHTING LOGIC
 const hl = document.getElementById("hl");

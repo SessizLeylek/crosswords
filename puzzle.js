@@ -20,7 +20,7 @@ const startTime = Date.now()
 let maxHints = 0;
 let hintsLeft = 0;
 let hintCooldown = 0;
-const maxHintCooldown = 5;
+const maxHintCooldown = 2;
 
 parsePuzzleCode(puzzleCode);
 const g = generateGrids(placements);

@@ -25,20 +25,30 @@
             <p class="long-text">Welcome to SessizLeylek's Crossword Generator, where you can create puzzles by entering your data in the format <em>THEANSWER=The question for the answer</em>. The answer must be written in all caps with no spaces or special characters allowed. After you have finished entering all your pairs, click "Generate Crossword" to produce a link that allows you to play the puzzle or send it to your friends. Keep in mind that the generated links will probably exceed 3k characters in length. Some browsers may not be able to handle such long URLs.</p>
 
             <div class="top-row">
-                <p>Presets: </p>
-
+                <p>Presets: 
                 <select id="preset-select">
-                    <option value="russian-english0">Russian-English Vocabulary (Easy)</option>
-                    <option value="russian-english1">Russian-English Vocabulary (Intermediate)</option>
+                    <option value="russian-english0">Russian-English Vocabulary (Intermediate)</option>
+                    <option value="russian-english1">Russian-English Vocabulary (Advanced)</option>
                     <option value="game-characters">Video Game Characters</option>
                     <option value="countries-cities">Countries And Cities</option>
                 </select>
+                </p>
 
                 <button onclick="insertPreset()">Add To The List</button>
                 <button onclick="clearList()">Clear List</button>
             </div>
 
             <textarea id="clue-pairs" placeholder="i.e.&#10;ALBERTEINSTEIN=The Discoverer of the Theory of Relativity"></textarea>
+
+            <p>Puzzle Size:
+            <select id="grid-size-select">
+                <option value="7">Smallest</option>
+                <option value="14">Small</option>
+                <option value="21" selected="selected">Medium</option>
+                <option value="28">Large</option>
+                <option value="35">Largest</option>
+            </select>
+            </p>
 
             <button id="generate-button" onclick="generateCrossword()">Generate Crossword</button>
 
