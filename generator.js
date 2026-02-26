@@ -44,7 +44,7 @@ function generateCrossword() {
     // Parse input as KEY=CLUE pairs
     const lines = ta.value.split("\n");
     const keys = lines.map(line => line.split("=")[0].trim().toUpperCase());
-    const values = lines.map(line => line.split("=")[1].trim() || "");
+    const values = lines.map(line => (line.split("=")[1] || "").trim());
 
     const puzzleCode = generatePuzzleCode(keys, values, gridSize);
     showPuzzleLink(puzzleCode);
