@@ -1998,6 +1998,68 @@
 МЕЧТАТЬ=dream
 НАЛИЧИЕ=availability presence
 ПОЛОЖЕНИЕ=position, situation
+БЛАГОДАРИТЬ=thank
+ТВЕРДЫЙ=hard, firm
+ДОСТАВЛЯТЬ=deliver, give or procure
+МОЛОЧНЫЙ=milk (adj)
+ОКРАИНА=outskirts
+ПАСТУХ=shepherd
+ОВОЩ=vegetable
+НЕВЕРОЯТНЫЙ=unbelievable, incredible
+ПОСЕТИТЕЛЬ=visitor
+РАМКА=frame
+ПОЖАРНЫЙ=fire
+ОТРИЦАТЕЛЬНЫЙ=negative
+ШОФЕР=chauffeur
+ЛЮБОПЫТНЫЙ=curious
+ПРОИЗНОСИТЬ=to pronounce
+ХОЗЯЙСТВО=farm, agriculture, household, economy
+ПОКОЛЕНИЕ=generation
+ПИТАНИЕ=nutrition
+СТОЙКА=stand, counter, stance
+ДВАДЦАТЫЙ=twentieth
+ЯГОДА=berry
+ЛАМПОЧКА=electric light bulb
+ЛЕКАРСТВО=medicine
+ПРОЧНЫЙ=durable, sturdy
+ОПИСЫВАТЬ=describe
+ВЫГОДНЫЙ=advantageous
+РАЗРЕШАТЬ=to allow, to solve
+ПОСЛЕДСТВИЕ=consequence
+ПСИХОЛОГИЯ=psychology
+ПРЕДСТАВЛЕНИЕ=presentation, written declaration or statement, performance, idea
+ОБЪЯВЛЯТЬ=to declare
+ШУМНЫЙ=noisy
+ОБНИМАТЬ=to embrace
+УСТАЛЫЙ=tired
+РЕКОМЕНДОВАТЬ=recommend, (obsolete) introduce
+КОЛЛЕКЦИЯ=collection
+ПОЗДРАВЛЯТЬ=congratulate
+СКАМЕЙКА=bench, Long seat with a back
+ПРИГЛАШЕНИЕ=invitation
+УЧРЕЖДЕНИЕ=institution
+ЗРЕНИЕ=sight, view
+НАЦИЯ=nation
+ОСОБЕННОСТЬ=peculiarity, feature
+СОВЕТОВАТЬ=advise
+МОЛЧАЛИВЫЙ=not fond of talking much, understood or done without words
+КАЮТА=cabin (on a ship), state-room
+ПЕНСИЯ=pension, retired
+ОТСУТСТВОВАТЬ=be absent
+ПРОФЕССИЯ=occupation
+СПАРЖА=asparagus
+МОЛОДОСТЬ=youth, youthfulness, youngness
+СОРЕВНОВАНИЕ=competition, form of activity struggle rivalry to achieve superiority
+ОДИНОЧЕСТВО=loneliness
+ПРИКАЗЫВАТЬ=to order someone
+ПРОСТЫНЯ=sheet
+ПОДТВЕРЖДАТЬ=confirm
+ПРИХОЖАЯ=hallway, anteroom / antechamber
+ПРИКЛЮЧЕНИЕ=adventure
+НЕВОЗМОЖНЫЙ=impossible
+УДИВЛЕННЫЙ=surprised
+ПРЕДПОЧИТАТЬ=To Prefer
+РЕСНИЦА=eyelash
 НЕФТЬ=oil
 ТАЙНЫЙ=secret, mysterious
 ОРДЕН=decoration for achievement (~ )
@@ -2502,7 +2564,6 @@
 БЕЗУСЛОВНО=undoubtedly, certainly
 ПОЛЕВОЙ=field
 ГАРАЖ=garage
-БЛАГОДАРИТЬ=thank
 ЗАПЛАТИТЬ=to pay
 КОРОБКА=box
 ВНАЧАЛЕ=at first in the beginning (adv)
@@ -2519,7 +2580,6 @@
 ПОДЕЛАТЬ=to do (something), to accomplish a little, cant do anything
 ЛЕСТНИЦА=stairs
 НЕБОСЬ=certainly, must be
-ТВЕРДЫЙ=hard, firm
 ПО-РУССКИ=in Russian
 РУЛЬ=steering wheel, rudder, handlebars
 ФАМИЛИЯ=last name
@@ -2528,7 +2588,6 @@
 ГОРЯЧО=hotly
 АБСОЛЮТНЫЙ=absolute
 ВСТРЕЧАТЬ=meet
-ДОСТАВЛЯТЬ=deliver, give or procure
 ХАЛАТ=bathrobe
 РАЗБУДИТЬ=wake
 СПЕКТАКЛЬ=play
@@ -2538,7 +2597,6 @@
 КОНФЛИКТ=conflict
 ОЦЕНИТЬ=appreciate, set the price, appraise, to rate/to evaluate
 СОСТОЯТЬ=consist, be made up of, to belong to
-МОЛОЧНЫЙ=milk (adj)
 НАСТАИВАТЬ=to insist
 ТРАССА=line, plan
 ЦЕННЫЙ=valuable
@@ -2624,11 +2682,9 @@
 ПЛАЧ=crying
 ПОДХОДИТЬ=to approach, to suit
 ЛОКОТЬ=elbow
-ОКРАИНА=outskirts
 НАКАЗАТЬ=punish
 ОСЬ=axle / axis
 ОПРЕДЕЛЯТЬ=to define
-ПАСТУХ=shepherd
 ВОЗВРАЩАТЬ=return, repay, recover
 ВОЗДЕЙСТВИЕ=impact
 ВЗЯТЬСЯ=to take on, originate or come from
@@ -2658,7 +2714,6 @@
 СОБЕСЕДНИК=conversation partner, interlocutor
 РОДИТЕЛЬ=parent
 ЗАКРЫТЫЙ=closed
-ОВОЩ=vegetable
 РАДОСТНО=With joy
 ТУАЛЕТ=toilet, dress
 ТЕКУЩИЙ=current, flowing, recurring (at a time)
@@ -2671,7 +2726,6 @@
 ГРАНЬ=facet, border
 ЛИШИТЬ=deprive rob of
 ИКОНА=icon
-НЕВЕРОЯТНЫЙ=unbelievable, incredible
 ЧУШЬ=nonsense
 КАША=porridge, jumble/mess
 ПЕЧАЛЬНЫЙ=sad
@@ -2688,7 +2742,6 @@
 РАЗВЕДЧИК=scout (secret service man, intelligence agent)
 ГЕНИЙ=genius
 ДОБЫЧА=mining, prey
-ПОСЕТИТЕЛЬ=visitor
 ЧЁРТ=devil
 УСТРАИВАТЬ=arrange, suit
 КРАЙНИЙ=extreme
@@ -2701,7 +2754,6 @@
 ОТВЕСТИ=take, remove
 ПОРАЖЕНИЕ=defeat, lesion
 ОБРЕСТИ=find aquire or gain
-РАМКА=frame
 ХВАТИТЬ=to suffice, to grab, thats enough / stop!
 БЛАГОРОДНЫЙ=noble
 СПОРТСМЕН=athlete
@@ -2720,7 +2772,6 @@
 ПЕРЕСЕЧЬ=to move across/traverse across
 СНИЗУ=from below
 КРУТИТЬ=twist
-ПОЖАРНЫЙ=fire
 СКРЫТЬ=hide conceal
 НЕПОДАЛЁКУ=not far away
 ИЗУЧИТЬ=study
@@ -2744,7 +2795,6 @@
 САПОГ=boot, wader, very long boot
 КОНЕЧНЫЙ=ultimate final end (adj)
 ПАЛАТА=chamber, ward, (obsolete) palace
-ОТРИЦАТЕЛЬНЫЙ=negative
 МОЩНОСТЬ=power, capacity ( kh nng, nng xut)
 НЕОБХОДИМЫЙ=necessary, unavoidable
 СПУТНИК=satellite, companion
@@ -2765,7 +2815,6 @@
 ЛЕНТА=ribbon, feed
 ТЕРРОРИСТ=terrorist
 ВАРИТЬ=to cook / to boil, brew, to weld
-ШОФЕР=chauffeur
 ГОРДО=proudly
 СТУПЕНЬ=step, stage
 ОЧАГ=hearth
@@ -2810,12 +2859,9 @@
 БОКАЛ=glass (of wine)
 ОБОЛОЧКА=shell, membrane
 НЕМНОЖКО=a little
-ЛЮБОПЫТНЫЙ=curious
 НЕПЛОХОЙ=not bad
 КУЗОВ=body
-ПРОИЗНОСИТЬ=to pronounce
 ЗАМЕЧАТЬ=note
-ХОЗЯЙСТВО=farm, agriculture, household, economy
 РУЧНОЙ=hand, manual / handmade, tame
 ПРИЁМ=reception, welcome, taking, admission, technique, move, appointment
 МРАК=(bookish) darkness absence of light
@@ -2823,7 +2869,6 @@
 СУЕТА=bustle, fuss, vanity
 СЛАВНЫЙ=glorious, famous
 БАРЬЕР=barrier
-ПОКОЛЕНИЕ=generation
 ПОХОРОНИТЬ=to bury
 ФИЗИЧЕСКИЙ=physical
 КОМИССИЯ=commission
@@ -2863,7 +2908,6 @@
 ВЫЕХАТЬ=leave
 ТУПИК=dead end
 КАЗАК=Cossack
-ПИТАНИЕ=nutrition
 ОПЕРАЦИЯ=operation, surgery
 КАКОВ=what
 ЗДРАВСТВУЙТЕ=hello
@@ -2882,12 +2926,10 @@
 НЕСЧАСТЬЕ=misfortune
 ВСЕРЬЁЗ=serious, seriously
 ЗАСЛУГА=merit
-СТОЙКА=stand, counter, stance
 ПОДДЕРЖАТЬ=support, keep/hold up and not let fall
 ВИЗА=visa
 НАСКВОЗЬ=through
 СПОСОБСТВОВАТЬ=to contribute to something, help (to promote further), to facilitate
-ДВАДЦАТЫЙ=twentieth
 ВЕТЕРАН=veteran
 ТОТЧАС=immediately
 ДОГАДАТЬСЯ=guess
@@ -2909,7 +2951,6 @@
 РАЗВОД=divorce
 ПРЕДПОЛАГАТЬ=to assume
 ВОЙ=howl howling
-ЯГОДА=berry
 ОТДЕЛЕНИЕ=separation, department, branch, office
 ОБОЙТИ=go around, evade
 ВЕЛОСИПЕД=bicycle
@@ -2946,7 +2987,6 @@
 ЧАШКА=cup
 АККУРАТНО=neatly, carefully, accurately
 НЕЗНАКОМЕЦ=stranger
-ЛАМПОЧКА=electric light bulb
 ВИДНЫЙ=visible
 ГЕРМАНСКИЙ=Germanic
 ГРОЗА=thunderstorm
@@ -2983,7 +3023,6 @@
 ОРГАНИЗАТОР=organizer
 КАФЕДРА=department or faculty of teachers, pulpit
 СЖЕЧЬ=to burn, destroy or harm with fire
-ЛЕКАРСТВО=medicine
 УБИРАТЬ=tidy, take away, harvest, put away
 ШАХТА=mineshaft
 МЕСТЕЧКО=little place, small town, dimunitive of
@@ -3012,12 +3051,10 @@
 ТОЛЧОК=a push
 НАПУГАТЬ=to frighten, to horrify
 ОТКРЫТЬСЯ=to be opened
-ПРОЧНЫЙ=durable, sturdy
 СПУСКАТЬСЯ=go down
 ДЫХАНИЕ=breathing or breath
 ХИТРЫЙ=sly
 СТАЛЬНОЙ=steel
-ОПИСЫВАТЬ=describe
 РУЧЕЙ=stream
 СОСЕДНИЙ=neighbouring
 ДЕСКАТЬ=they say... / he or she says... / allegedly...
@@ -3074,7 +3111,6 @@
 ВЫСКАЗАТЬ=state
 БЫТОВОЙ=everyday ordinary household (adj)
 ОТЧАЯНИЕ=despair
-ВЫГОДНЫЙ=advantageous
 ЗЕРНО=grain
 ДЕСЯТИЛЕТИЕ=decade
 ГОСТЬ=visitor
@@ -3112,11 +3148,9 @@
 УДЕРЖАТЬСЯ=to restrain oneself/to help it/to keep yourself from
 ТРАКТОР=tractor
 ОПАСНОСТЬ=danger
-РАЗРЕШАТЬ=to allow, to solve
 ИМУЩЕСТВО=property
 ВОСПОЛЬЗОВАТЬСЯ=avail oneself
 ПАПКА=folder, file cover
-ПОСЛЕДСТВИЕ=consequence
 ОКОШКО=(small) window, counter window
 ПЕТЛЯ=hinge, noose, run in a stocking
 НЕНАВИСТЬ=hate
@@ -3137,7 +3171,6 @@
 ОДЕТЫЙ=dressed, wearing
 ОФОРМИТЬ=apply for, take out, book, to formalize
 НАПОЛОВИНУ=half, halfway
-ПСИХОЛОГИЯ=psychology
 ПЕПЕЛ=ash
 БЛАГОПОЛУЧНО=safely, Successfully, Well
 ПУЛЬТ=desk, remote control
@@ -3153,7 +3186,6 @@
 КУПЕЦ=merchant
 КУСОЧЕК=piece
 ИЗВЕСТИЕ=news
-ПРЕДСТАВЛЕНИЕ=presentation, written declaration or statement, performance, idea
 СДАВАТЬСЯ=give up
 СОЕДИНИТЬ=join
 РАВНОВЕСИЕ=(science/bookish/technical) equilibrium/balance
@@ -3172,7 +3204,6 @@
 ОБЕДАТЬ=to eat lunch
 ПРЕДОСТАВИТЬ=to grant, to provide
 ОРЕХ=a nut
-ОБЪЯВЛЯТЬ=to declare
 УСАДЬБА=estate, farmstead
 ПОЛОТНО=canvas
 НАПИТОК=drink
@@ -3203,7 +3234,6 @@
 МЕНЯТЬСЯ=change
 СПОКОЙСТВИЕ=calm
 ПОЭЗИЯ=poetry
-ШУМНЫЙ=noisy
 ПЛОТНЫЙ=dense, compact, solidly built
 ДОНЕСТИ=to carry (as far as), to report, to denounce, to inform (on/against), to convey
 ЛАСКОВО=affectionately, tenderly
@@ -3226,7 +3256,6 @@
 ВЫСТРЕЛИТЬ=shoot
 ЕЖЕЛИ=if
 ПРИМЕНЯТЬСЯ=(be) employed
-ОБНИМАТЬ=to embrace
 ИЗРАИЛЬСКИЙ=Israeli
 САНИ=sleigh
 ПРОТИВНО=against, disgusting
@@ -3284,11 +3313,9 @@
 ОПРАВДАТЬ=justify, acquit
 НАСТУПАТЬ=step on, arrive (in time), attack, to be
 ВЕСТЬ=news
-УСТАЛЫЙ=tired
 ГОРНЫЙ=mountain
 ИСПОЛНЯТЬ=fulfill, to perform
 МЕРОПРИЯТИЕ=event
-РЕКОМЕНДОВАТЬ=recommend, (obsolete) introduce
 ЭКЗЕМПЛЯР=copy
 КУПАТЬСЯ=to bathe
 ТЁТЯ=aunt
@@ -3306,7 +3333,6 @@
 ТАБАК=tobacco
 КОЗА=goat
 РАССУЖДАТЬ=reason, think, To judge
-КОЛЛЕКЦИЯ=collection
 ПОЗВОЛЯТЬ=let or allow, to afford
 ЗАГОВОРИТЬ=begin to speak, cast a spell, distract
 СБИТЬ=hit
@@ -3321,11 +3347,9 @@
 ВЫВОДИТЬ=take out
 УВЕРЕННЫЙ=assured, confident
 ЖИЛЬЁ=house / dwelling, habitation (an inhabited place), housing
-ПОЗДРАВЛЯТЬ=congratulate
 МГНОВЕННО=instantly
 ТЕАТРАЛЬНЫЙ=theater adj
 ОРЁЛ=eagle
-СКАМЕЙКА=bench, Long seat with a back
 ПОБЛИЗОСТИ=nearby
 НЕДОСТАТОК=disadvantage, fault, shortcoming, weakness
 ПОВЫШЕНИЕ=increase, promotion
@@ -3411,7 +3435,6 @@
 ПРИСТУПИТЬ=to start something
 МАССОВЫЙ=(relational) mass
 СВОЛОЧЬ=riff-raff
-ПРИГЛАШЕНИЕ=invitation
 СТРАЖА=guard or watch, taken under arrest (expression)
 БЛЕДНЫЙ=pale
 ПЕРСПЕКТИВА=perspective / prospect
@@ -3479,7 +3502,6 @@
 СУЩЕСТВО=creature/being/entity
 ПРОПУСК=skipping, permit/pass
 ПРОЕХАТЬ=pass
-УЧРЕЖДЕНИЕ=institution
 ПРОФЕССИОНАЛ=professional
 ОХВАТИТЬ=to grip, to encompass
 СТОЛЕТИЕ=century
@@ -3579,7 +3601,6 @@
 ВОЗДУШНЫЙ=air
 ШТУРМАН=navigator
 НЕПРИЯТНЫЙ=unpleasant
-ЗРЕНИЕ=sight, view
 СКУКА=boredom
 РАЗГЛЯДЕТЬ=to discern, to detect
 ФИГУРКА=statuette
@@ -3614,8 +3635,6 @@
 БРОНЗОВЫЙ=bronzed
 ВЛАЖНЫЙ=humid, moist
 АЛЫЙ=crimson, scarlet
-НАЦИЯ=nation
-ОСОБЕННОСТЬ=peculiarity, feature
 РЕВОЛЮЦИЯ=revolution
 ИШЬ=see!, oh
 ИЗБРАННЫЙ=select
@@ -3644,7 +3663,6 @@
 МОЛОДЁЖЬ=young, young generation
 ПОДЧИНЯТЬСЯ=to submit/to obey
 РЕШАТЬСЯ=decide, be solved
-СОВЕТОВАТЬ=advise
 ОГОРОД=vegetable garden, garden inclosure
 СПАЛЬНЯ=main bedroom
 НУЖДА=need
@@ -3861,7 +3879,6 @@
 ДОРОЖНЫЙ=(relational) road, (relational) travelling
 ГОВОРИТЬСЯ=to be said
 ПОЛЗТИ=crawl (snake), spread rumors
-МОЛЧАЛИВЫЙ=not fond of talking much, understood or done without words
 ХОЗЯЙСТВЕННЫЙ=economic (relating to the economy), household, thrifty, practical (streetsmart)
 ПОДВЕСТИ=to bring (closer by guiding and/or directing), to place (under), to support (with), to group together
 ФАНТАСТИЧЕСКИЙ=fiction, fantastic
@@ -3875,7 +3892,6 @@
 ВВЕДЕНИЕ=introduction
 ГОРДОСТЬ=pride
 СКАМЬЯ=bench
-КАЮТА=cabin (on a ship), state-room
 ОПИРАТЬСЯ=lean
 СТАНДАРТНЫЙ=standard
 СКРЫВАТЬСЯ=hide
@@ -3898,7 +3914,6 @@
 ДРОЖАТЬ=shiver/tremble
 БУРЫЙ=brown
 ЗАНЯТЫЙ=busy, occupied
-ПЕНСИЯ=pension, retired
 ФЮРЕР=Fuhrer
 НЕЗНАЧИТЕЛЬНЫЙ=insignificant
 ОБЩЕНИЕ=communication, socializing, socializing
@@ -4011,10 +4026,8 @@
 УКРАСИТЬ=decorate
 СТОНАТЬ=moan
 СЧЕСТЬ=to count/consider or perceive as
-ОТСУТСТВОВАТЬ=be absent
 ПОХОДКА=gait, Manner of walking
 СОЧУВСТВИЕ=sympathy
-ПРОФЕССИЯ=occupation
 ВЯЛО=limply
 ГРОХОТ=crash roar rumble rattle
 ПРЕДВАРИТЕЛЬНЫЙ=preliminary
@@ -4045,7 +4058,6 @@
 ОПРЕДЕЛЕНИЕ=definition
 БЕССМЕРТНЫЙ=immortal
 ЧЕЛОВЕЧЕК=little man
-СПАРЖА=asparagus
 ЖЁЛТЫЙ=yellow
 АККУРАТНЫЙ=neat, accurate
 ИЗВИНЯТЬСЯ=apologize
@@ -4068,7 +4080,6 @@
 ПРОЖИВАТЬ=to reside, to live (formal)
 СТУДЕНЧЕСКИЙ=student
 ОБХОДИТЬСЯ=do without , cost, treat , to turn out some way
-МОЛОДОСТЬ=youth, youthfulness, youngness
 СПИНКА=diminutive of back, back of furniture
 ТЯНУТЬСЯ=To be stretching, To be pulling, to drag on
 ВИДИМЫЙ=apparent
@@ -4138,7 +4149,6 @@
 ВЗДЫХАТЬ=to sigh, to long for
 ТУЧА=cloud
 ГРЕБЕНЬ=comb, crest
-СОРЕВНОВАНИЕ=competition, form of activity struggle rivalry to achieve superiority
 ХРАНИТЬСЯ=be kept
 СОХРАНЕНИЕ=preservation
 ШКУРА=skin
@@ -4188,7 +4198,6 @@
 ПУЛЕМЁТ=machine-gun
 ПРЕДАННЫЙ=devoted, betrayed
 КОПЬЁ=spear
-ОДИНОЧЕСТВО=loneliness
 ЁЛКА=(small) spruce, Christmas tree, jolka festival (on 31 Dec.)
 ОГРАДА=fence
 ЗАДЕРЖАТЬСЯ=to linger, to be delayed
@@ -4251,7 +4260,6 @@
 МОЛНИЯ=lightning, zipper, express-telegram, news-flash
 СОННЫЙ=sleepy
 ПОСТАНОВЛЕНИЕ=resolution decision decree enactment
-ПРИКАЗЫВАТЬ=to order someone
 СТРАТЕГИЧЕСКИЙ=strategic
 РОСКОШНЫЙ=luxurious
 БЕСЕДОВАТЬ=to converse, to talk
@@ -4272,7 +4280,6 @@
 ЗАИНТЕРЕСОВАТЬ=to interest
 ТОЛКНУТЬ=push
 ПОРЯДОЧНЫЙ=upstanding orderly (adj)
-ПРОСТЫНЯ=sheet
 ПУСТЯК=nothing/trifle/unimportant thing
 ВЕЛИЧЕСТВО=majesty
 НЕДОВОЛЬНЫЙ=dissatisfied
@@ -4425,7 +4432,6 @@
 ПОБЕЖАТЬ=to run, uni directional
 ХЛОПАТЬ=slam, slap, clap
 ВЕСЛО=oar
-ПОДТВЕРЖДАТЬ=confirm
 ТЕРПЕНИЕ=patience
 РАСХОДИТЬСЯ=to diverge
 ИЗЯЩНЫЙ=Refined, Delicate
@@ -4501,7 +4507,6 @@
 ОФИЦЕРСКИЙ=officer
 НАЧАЛЬСТВО=command
 НАТЯНУТЬ=to stretch on
-ПРИХОЖАЯ=hallway, anteroom / antechamber
 АССОЦИАЦИЯ=association
 СОГЛАШАТЬСЯ=consent
 ИСПУГАТЬСЯ=to be frightened of
@@ -4544,7 +4549,6 @@
 ШАГАТЬ=to step (feet)
 ПОПАДАТЬСЯ=to get caught, to get hit, come across
 КЛЯСТЬСЯ=to swear
-ПРИКЛЮЧЕНИЕ=adventure
 ОСТОРОЖНЫЙ=careful
 ВЕРЁВКА=rope
 СООБРАЖАТЬ=to figure out [something]
@@ -4595,7 +4599,6 @@
 КЛОК=tuft/shred/wisp/ torn shredded off piece of something
 УТРАТИТЬ=lose
 ПРАВЛЕНИЕ=governing body
-НЕВОЗМОЖНЫЙ=impossible
 ПОШЛЫЙ=Vulgar, unoriginal boring hackneyed or banal
 ЛИЛОВЫЙ=purple lilac violet
 ПИСЬМЕННЫЙ=writing
@@ -4750,7 +4753,6 @@
 ТВОРИТЬСЯ=happen, going on
 КОЙКА=bunk, hospital bed
 СВАЛИТЬСЯ=fall down from (reflexive), to gather (about dogs), to fall ill, to dump
-УДИВЛЕННЫЙ=surprised
 САЗАН=carp (fish)
 ОТМЕЧАТЬСЯ=to be observed/to be recognized
 ЗВЕНЕТЬ=ring
@@ -4803,7 +4805,6 @@
 КОМАНДИРОВКА=official journey
 ВОСПОМИНАНИЕ=memory, memoirs
 МАТЕРИЯ=matter
-ПРЕДПОЧИТАТЬ=To Prefer
 ИЗУМРУДНЫЙ=emerald
 ЧУДОВИЩНЫЙ=monstrous
 РАЙКОМ=district committee
@@ -5053,7 +5054,6 @@
 ОТКИНУТЬСЯ=to lean back, to get out, to set aside
 ТОРОПЛИВЫЙ=hasty/hurried
 СТИСНУТЬ=to bite/clench
-РЕСНИЦА=eyelash
 ЗАДУМАТЬ=to think of, to devise
 КОНЧАТЬСЯ=end
 НАМЕРЕННЫЙ=intentional deliberate
