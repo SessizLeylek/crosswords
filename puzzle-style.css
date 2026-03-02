@@ -2,6 +2,9 @@
 body {
     /*overflow: hidden;*/
     background: #eef;
+
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 #crossword {
