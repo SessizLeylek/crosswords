@@ -4,10 +4,6 @@ const params = new URLSearchParams(location.search);
 const hasP = params.has("p");
 const puzzleCode = hasP ? params.get("p") : null;
 
-if (!puzzleCode) {
-    alert("No puzzle code provided in URL.");
-}
-
 const gridScale = { x: 0, y: 0 };
 const placements = [];      // { x, y, direction, word, clue }
 const referenceGrid = [];   // { accross, down } references to placements, 0..n-1 placement index
@@ -22,9 +18,13 @@ let hintsLeft = 0;
 let hintCooldown = 0;
 const maxHintCooldown = 2;
 
-parsePuzzleCode(puzzleCode);
-const g = generateGrids(placements);
-buildPuzzle();
+if (!puzzleCode) {
+    alert("No puzzle code provided in URL.");
+} else {
+    parsePuzzleCode(puzzleCode);
+    generateGrids(placements);
+    buildPuzzle();
+}
 
 const clueTextDiv = document.getElementById("clue-text");
 const hintTextDiv = document.getElementById("hint-text");
@@ -311,26 +311,28 @@ function buildPuzzle() {
         keyboardSecondRowDiv.style.gridTemplateColumns = `repeat(${decidedLayout[1].length}, 1fr)`;
         keyboardThirdRowDiv.style.gridTemplateColumns = `repeat(${decidedLayout[2].length}, 1fr)`;
 
-        const generateRow = (rowDiv, n) => {for (let i = 0; i < decidedLayout[n].length; i++) {
-            const keyButton = document.createElement("div");
-            rowDiv.appendChild(keyButton);
-            keyButton.className = "key-button";
+        const generateRow = (rowDiv, n) => {
+            for (let i = 0; i < decidedLayout[n].length; i++) {
+                const keyButton = document.createElement("div");
+                rowDiv.appendChild(keyButton);
+                keyButton.className = "key-button";
 
-            keyButton.textContent = decidedLayout[n][i];
-            if (decidedLayout[n][i] === "⇦") {
-                // delete functionality
-                keyButton.addEventListener("click", () => {
-                    if (!previousSelectedCell) return;
-                    deleteLetter();
-                });
-            } else {
-                // type functionality
-                keyButton.addEventListener("click", () => {
-                    if (!previousSelectedCell) return;
-                    typeLetter(decidedLayout[n][i]);
-                });
+                keyButton.textContent = decidedLayout[n][i];
+                if (decidedLayout[n][i] === "⇦") {
+                    // delete functionality
+                    keyButton.addEventListener("click", () => {
+                        if (!previousSelectedCell) return;
+                        deleteLetter();
+                    });
+                } else {
+                    // type functionality
+                    keyButton.addEventListener("click", () => {
+                        if (!previousSelectedCell) return;
+                        typeLetter(decidedLayout[n][i]);
+                    });
+                }
             }
-        }};
+        };
 
         generateRow(keyboardFirstRowDiv, 0);
         generateRow(keyboardSecondRowDiv, 1);
@@ -456,8 +458,33 @@ function checkIfSolved() {
     const x = parseInt(previousSelectedCell.dataset.x);
     const y = parseInt(previousSelectedCell.dataset.y);
     const cellReferences = referenceGrid[y][x];
-    const placement = placements[selectedDirection ? cellReferences.down : cellReferences.accross];
+    const placementsToCheck = [];
+    if (cellReferences.accross !== -1) {
+        placementsToCheck.push(placements[cellReferences.accross]);
+    }
+    if (cellReferences.down !== -1) {
+        placementsToCheck.push(placements[cellReferences.down]);
+    }
 
+    for (const p of placementsToCheck) {
+        const solved = checkIfPlacementSolved(p);
+
+        if (solved) {
+            solvedCount++;
+
+            if (solvedCount === placements.length) {
+                const elapsedTime = ((Date.now() - startTime) * 0.001).toFixed(1);
+                showSuccessDialog(elapsedTime);
+                playSound("success");
+                return;
+            }
+
+            playSound("solve");
+        }
+    }
+}
+
+function checkIfPlacementSolved(placement) {
     let correctLetterCount = 0;
     const iteratedCells = [];
     for (let i = 0; i < placement.word.length; i++) {
@@ -470,38 +497,33 @@ function checkIfSolved() {
         }
     }
 
-    if (correctLetterCount === placement.word.length) {
-        solvedCount++;
-        if (solvedCount === placements.length) {
-            const elapsedTime = ((Date.now() - startTime) * 0.001).toFixed(1);
-            showSuccessDialog(elapsedTime);
-            playSound("success");
-        } else {
-            playSound("solve");
-        }
+    const isSolved = correctLetterCount === placement.word.length;
 
+    if (isSolved) {
         for (const c of iteratedCells) {
             c.classList.add("solved");
         }
     }
+
+    return isSolved;
 }
 
 function getHint() {
     if (hintsLeft <= 0 || hintCooldown > 0) return;
-    
+
     const unsolvedCells = [];
     for (const cellRow of cellMap) {
         for (const cell of cellRow) {
             if (cell.classList.contains("void") || cell.classList.contains("solved")) continue;
-            
+
             unsolvedCells.push(cell);
         }
     }
-    
+
     if (unsolvedCells.length === 0) return;
-    
+
     const selectedCell = unsolvedCells[Math.floor(Math.random() * unsolvedCells.length)];
-    
+
     // use hint
     if (previousSelectedCell) {
         deselectCurrentCell();
@@ -582,7 +604,7 @@ function showSuccessDialog(completionTime) {
     }
 
     const score = 0.75 * (1200000 / (1200 + Math.max(completionTime - (maxHints * 9), 0)))
-                + 0.25 * (1000 * hintsLeft / maxHints);
+        + 0.25 * (1000 * hintsLeft / maxHints);
 
     const html = `
     <div id="success-overlay">
@@ -611,7 +633,7 @@ function showSuccessDialog(completionTime) {
 }
 
 function playTypingSound() {
-    playSound("type"+Math.floor(Math.random() * 3));
+    playSound("type" + Math.floor(Math.random() * 3));
 }
 
 function typeLetter(letter) {
@@ -661,9 +683,9 @@ window.addEventListener("resize", refreshPuzzleScale);
 let audioUnlocked = false;
 
 function unlockAudio() {
-  if (audioUnlocked) return;
-  audioUnlocked = true;
-  audioCtx.resume();
+    if (audioUnlocked) return;
+    audioUnlocked = true;
+    audioCtx.resume();
 }
 
 document.addEventListener("pointerdown", unlockAudio, { once: true });
@@ -677,6 +699,6 @@ setInterval(() => {
             hintCooldown = 0;
         }
 
-        document.documentElement.style.setProperty("--hint-fill", `${hintCooldown/maxHintCooldown*360}deg`);
+        document.documentElement.style.setProperty("--hint-fill", `${hintCooldown / maxHintCooldown * 360}deg`);
     }
 }, 10);
